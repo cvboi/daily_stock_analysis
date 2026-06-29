@@ -8,10 +8,23 @@ This document explains how to deploy the AI Stock Analysis System to a server.
 |------|------|------|----------|
 | **Docker Compose** ⭐ | One-click deploy, isolated environment, easy migration, easy upgrade | Requires Docker installation | **Recommended**: Most scenarios |
 | **Direct Deployment** | Simple, no extra dependencies | Environment dependencies, migration difficulties | Temporary testing |
+| **Netlify static preview** | Quickly publish a frontend preview for page review | Does not run the Python/FastAPI backend; API must be deployed separately | Static Web UI preview |
 | **Systemd Service** | System-level management, auto-start on boot | Complex configuration | Long-term stable operation |
 | **Supervisor** | Process management, auto-restart | Requires additional installation | Multi-process management |
 
 **Conclusion: Docker Compose is recommended for the fastest and most convenient migration!**
+
+---
+
+## Netlify Static WebUI Preview
+
+The repository root includes `netlify.toml` for building and publishing the `apps/dsa-web` static frontend on Netlify:
+
+```bash
+npx netlify deploy --build
+```
+
+The Netlify preview only hosts React static assets. It does not run `main.py --serve-only` or the FastAPI backend. For the full WebUI experience, continue to use Docker Compose, direct deployment, or another platform that can run the Python service. If the frontend should talk to an external API, set `VITE_API_URL` in the Netlify build environment to the deployed backend URL.
 
 ---
 

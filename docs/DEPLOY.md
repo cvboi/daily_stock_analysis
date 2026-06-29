@@ -8,10 +8,25 @@
 |------|------|------|----------|
 | **Docker Compose** ⭐ | 一键部署、环境隔离、易迁移、易升级 | 需要安装 Docker | **推荐**：大多数场景 |
 | **直接部署** | 简单直接、无额外依赖 | 环境依赖、迁移麻烦 | 临时测试 |
+| **Netlify 静态预览** | 快速发布前端预览、适合页面验收 | 不运行 Python/FastAPI 后端，API 需另行部署 | Web UI 静态页面预览 |
 | **Systemd 服务** | 系统级管理、开机自启 | 配置繁琐 | 长期稳定运行 |
 | **Supervisor** | 进程管理、自动重启 | 需要额外安装 | 多进程管理 |
 
 **结论：推荐使用 Docker Compose，迁移最快最方便！**
+
+---
+
+## 🌐 Netlify 静态 WebUI 预览
+
+仓库根目录提供 `netlify.toml`，用于在 Netlify 上构建并发布 `apps/dsa-web` 的静态前端：
+
+```bash
+npx netlify deploy --build
+```
+
+Netlify 预览只托管 React 静态资源，不会运行 `main.py --serve-only` 或 FastAPI 后端。需要完整 WebUI 功能时，请继续使用 Docker Compose、直接部署或其他可运行 Python 服务的平台；如前端要连接外部 API，请在 Netlify 构建环境中显式设置 `VITE_API_URL` 指向已部署的后端地址。
+
+如果前端部署在 Netlify、后端部署在 Render，优先使用 Netlify `/api/*` 代理打通，具体步骤见 [Render 后端部署指南](deploy-render.md)。
 
 ---
 

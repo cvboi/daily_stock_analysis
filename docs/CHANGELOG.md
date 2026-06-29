@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+- [文档] 新增 Render 后端 Blueprint 与部署指南，说明如何用 Netlify `/api/*` 代理打通静态前端和 FastAPI 后端。
+- [文档] 新增 Netlify 静态 WebUI 预览部署配置与中英文部署说明，明确 Netlify 仅托管前端静态资源，完整 API/WebUI 后端需单独部署。
 - [修复] API 异步批量分析共享概念板块排行缓存，避免同批多股重复拉取全市场概念排行。
 - [文档] 补齐概念板块排行字段契约与通知报告行业/概念类型列展示说明。
 - [新功能] #1742 新增信号归因分析功能（dashboard.signal_attribution），解释推荐理由的构成（技术指标、新闻舆情、基本面、市场环境的贡献度，以及最强看多/看空信号）。支持默认通知报告和 Jinja2 模板渲染，包含中英文国际化标签。归一化函数在 _parse_response() 和 parse_dashboard_json() 中显式调用，确保有效非零贡献度归一化到 100，all-zero 保留为 0（表示无有效信号）。
@@ -16,7 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - [改进] #1815 Phase 1 硬化日本/韩国 suffix-only 个股 MVP：集中 JP/KR/TW suffix 识别规则，扩充日韩股票种子索引，并为 yfinance 报价/基本面上下文补充市场、币种与数据质量元数据。
 - [文档] #1815 补充 JP/KR/TW suffix-only MVP 在外部 API、provider/model/base URL 与运行时配置上的边界说明：当前为结构化字段兼容验证且可回退到旧链路。
 - [修复] 修复通知 Markdown 表格转换在空单元格后将后续内容错配到错误表头的问题。
-- [修复] 将 Docker 可安装的 Longbridge SDK 版本固定为 0.2.75，避免 `longbridge>=0.2.77` 从包索引消失后导致 docker-build 失败。
+- [修复] 将 Longbridge SDK 依赖调整为 `>=4.0.0,<5.0.0`，避免固定到包索引不可安装的 `0.2.75` 导致依赖安装失败。
+- [修复] 将 tiktoken 依赖调整为 `>=0.13.0,<0.14.0`，避免 Python 3.14 环境因缺少旧版预编译 wheel 而尝试源码编译 Rust 扩展。
 - [修复] 持仓快照今日估值改为受限并发预取多只持仓实时价，减少持仓较多时 Web 组合页面刷新超时。
 - [修复] Web 首页重新分析完成后自动切换到同一股票最新生成的报告，避免仍停留在旧报告内容。
 - [新功能] #1754 在 Web AI 建议页新增单股信号时间线，并为自动生成与历史回填的 DecisionSignal 写入默认 decision_profile metadata。

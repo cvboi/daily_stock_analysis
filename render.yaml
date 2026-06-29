@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: daily-stock-analysis-api
+    env: docker
+    dockerContext: .
+    dockerfilePath: ./docker/Dockerfile
+    dockerCommand: sh -c "python main.py --serve-only --host 0.0.0.0 --port ${PORT:-8000}"
+    healthCheckPath: /api/health
+    envVars:
+      - key: WEBUI_HOST
+        value: 0.0.0.0
+      - key: DATABASE_PATH
+        value: /app/data/stock_analysis.db
+      - key: LOG_DIR
+        value: /app/data/logs
+      - key: ENV_FILE
+        value: /app/data/runtime.env
+      - key: ADMIN_AUTH_ENABLED
+        value: "true"
+    disk:
+      name: daily-stock-analysis-data
+      mountPath: /app/data
+      sizeGB: 1
